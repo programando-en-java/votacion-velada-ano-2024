@@ -83,7 +83,7 @@ Sustituye nombre_del_archivo.jar por el nombre del archivo JAR generado durante 
 Para cualquier consulta o sugerencia, no dudes en ponerte en contacto conmigo:
 
 Correo Electrónico: ricardo@programandoenjava.com
-Web: [Programando En Java](https://programandoenjava.com/)https://programandoenjava.com/
+Web: [Programando En Java](https://programandoenjava.com/)
 
 ---
 
