@@ -30,4 +30,46 @@
         </table>
     </div>
 
+    <div class="row">
+        <div id="velada-player"></div>
+    </div>
+
 </div>
+
+<script src="https://player.twitch.tv/js/embed/v1.js"></script>
+<script type="text/javascript">
+    const playerOptions = {
+        height: 480,
+        width: "100%",
+        channel: "ibai",
+        parent: ["localhost"]
+    };
+
+    const player = new Twitch.Player("velada-player", playerOptions);
+
+    player.addEventListener(Twitch.Player.READY, () => {
+        console.log("The player is ready");
+    });
+
+    player.addEventListener(Twitch.Player.ONLINE, () => {
+        console.log("Ibai is online, enabling votes");
+    });
+
+    player.addEventListener(Twitch.Player.OFFLINE, () => {
+        console.log("Ibai is offline, no votes allowed and disabling votes");
+    });
+
+    player.addEventListener(Twitch.Player.PAUSE, () => {
+        console.log("Disabling votes");
+    });
+
+    player.addEventListener(Twitch.Player.ENDED, () => {
+        console.log("Disabling votes");
+    });
+
+    player.addEventListener(Twitch.Player.PLAY, () => {
+        console.log("Enabling votes");
+    });
+</script>
+
+</body>
