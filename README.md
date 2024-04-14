@@ -9,6 +9,18 @@ de datos y se visualizan en tiempo real a través de una barra de progreso en la
 
 ---
 
+## MOCKS
+### Pantalla principal
+![Pantalla principal Mock](https://raw.githubusercontent.com/programando-en-java/votacion-velada-ano-2024/main/mock_pantalla_principal.png)
+
+### Pantalla de carga
+![Pantalla de carga Mock](https://raw.githubusercontent.com/programando-en-java/votacion-velada-ano-2024/main/mock_pantalla_cargando.png)
+
+### Pantalla de admin
+![Pantalla de admin Mock](https://raw.githubusercontent.com/programando-en-java/votacion-velada-ano-2024/main/mock_pantalla_admin.png)
+
+---
+
 ## Tecnologías Utilizadas:
 
 - **Backend:** Spring Boot
