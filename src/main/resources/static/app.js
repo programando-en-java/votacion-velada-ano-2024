@@ -1,12 +1,11 @@
 const stompClient = new StompJs.Client({
-  brokerURL: "ws://localhost:8080/gs-guide-websocket",
+  brokerURL: "ws://localhost:8080/velada2024",
 });
 
-stompClient.onConnect = (frame) => {
+stompClient.onConnect = (_) => {
   setConnected(true);
-  console.log("Connected: " + frame);
-  stompClient.subscribe("/topic/greetings", (greeting) => {
-    showGreeting(JSON.parse(greeting.body));
+  stompClient.subscribe("/topic/votes", (data) => {
+    modificarBarrasDeProgreso(JSON.parse(data.body));
   });
 };
 
@@ -20,14 +19,15 @@ stompClient.onStompError = (frame) => {
 };
 
 function setConnected(connected) {
-  $("#connect").prop("disabled", connected);
-  $("#disconnect").prop("disabled", !connected);
   if (connected) {
-    $("#conversation").show();
+    $("#vote-team1").removeClass("disabled");
+    $("#vote-team2").removeClass("disabled");
+    $("#connecting").hide();
   } else {
-    $("#conversation").hide();
+    $("#vote-team1").addClass("disabled");
+    $("#vote-team2").addClass("disabled");
+    $("#connecting").show();
   }
-  $("#greetings").html("");
 }
 
 function connect() {
@@ -42,12 +42,12 @@ function disconnect() {
 
 function sendName(teamId) {
   stompClient.publish({
-    destination: "/app/hello",
+    destination: "/app/votes",
     body: JSON.stringify({ teamId: teamId }),
   });
 }
 
-function showGreeting(message) {
+function modificarBarrasDeProgreso(message) {
   $("#progress-bar-team1")
     .css("width", message.fighter1 + "%")
     .attr("aria-valuenow", message.fighter1);

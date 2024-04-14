@@ -12,16 +12,16 @@ public class WSVoteController {
 
   private static int team1 = 0;
   private static int team2 = 0;
-  private static UUID team1UUID = UUID.fromString(
+  private static final UUID team1UUID = UUID.fromString(
     "f65d4f2a-958b-4d94-9d71-61529c6fa1d6"
   );
 
-  private static UUID team2UUID = UUID.fromString(
+  private static final UUID team2UUID = UUID.fromString(
     "bc544e5d-3139-47c0-92b7-b41e1825b510"
   );
 
-  @MessageMapping("/hello")
-  @SendTo("/topic/greetings")
+  @MessageMapping("/votes")
+  @SendTo("/topic/votes")
   public VoteResponse greeting(VoteRequest message) throws Exception {
     if (message.teamId().equals(team1UUID)) {
       team1++;
