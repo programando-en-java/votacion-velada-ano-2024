@@ -2,10 +2,13 @@ package com.veladaano.programandoenjava.votacionveladaano2024.controllers;
 
 import com.veladaano.programandoenjava.votacionveladaano2024.dto.VoteRequest;
 import com.veladaano.programandoenjava.votacionveladaano2024.dto.VoteResponse;
-import java.util.UUID;
+import com.veladaano.programandoenjava.votacionveladaano2024.services.VoteService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
+
+import java.util.UUID;
 
 @Controller
 public class WSVoteController {
@@ -20,6 +23,14 @@ public class WSVoteController {
     "bc544e5d-3139-47c0-92b7-b41e1825b510"
   );
 
+
+  private final VoteService voteService;
+
+  @Autowired
+  public WSVoteController(final VoteService voteService){
+    this.voteService = voteService;
+  }
+
   @MessageMapping("/votes")
   @SendTo("/topic/votes")
   public VoteResponse greeting(VoteRequest message) throws Exception {
@@ -28,6 +39,6 @@ public class WSVoteController {
     } else {
       team2++;
     }
-    return new VoteResponse(team1, team2);
+    return voteService.responsePercentage(team1,team2).block();
   }
 }
