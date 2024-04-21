@@ -6,12 +6,13 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.Duration;
 import java.util.List;
 
 @Service
 public class VoteServiceImpl implements VoteService {
-
 
 
     final List<VoteResponse> voteList = List.of(new VoteResponse(10.0, 90.0), new VoteResponse(20.0, 80.0),
@@ -22,14 +23,15 @@ public class VoteServiceImpl implements VoteService {
         return votes;
     }
 
-    public Mono<VoteResponse> responsePercentage(Integer team1, Integer team2){
-        Integer total = team1+team2;
+    public Mono<VoteResponse> responsePercentage(Integer team1, Integer team2) {
+        BigDecimal total = new BigDecimal(team1 + team2);
         return Mono.just(new VoteResponse(
-                calculatePercentage(total.doubleValue(), team1.doubleValue()),
-                calculatePercentage(total.doubleValue(), team2.doubleValue())));
+                calculatePercentage(total, new BigDecimal(team1)).doubleValue(),
+                calculatePercentage(total, new BigDecimal(team2)).doubleValue()));
     }
 
-    private Double calculatePercentage(Double total, Double teamVotes){
-        return (teamVotes/total)*100;
+    private BigDecimal calculatePercentage(BigDecimal total, BigDecimal teamVotes) {
+        return teamVotes.divide(total, 4, RoundingMode.HALF_UP)
+                .multiply(BigDecimal.valueOf(100)).setScale(4, RoundingMode.HALF_UP);
     }
 }

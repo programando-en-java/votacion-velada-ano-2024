@@ -22,7 +22,8 @@ class VoteServiceImplTest {
                         voteServiceImpl.responsePercentage(team1Votes, team2Votes)
                 )
                 .expectNext(new VoteResponse(50.00, 50.00))
-                .expectComplete();
+                .expectComplete()
+                .verify();
 
     }
 
@@ -35,7 +36,35 @@ class VoteServiceImplTest {
                         voteServiceImpl.responsePercentage(team1Votes, team2Votes)
                 )
                 .expectNext(new VoteResponse(40.00, 60.00))
-                .expectComplete();
+                .expectComplete()
+                .verify();
+
+    }
+
+    @Test
+    void testResponsePercentage80PercentTeam120PercentTeam2() {
+        var team1Votes = 80;
+        var team2Votes = 20;
+        StepVerifier.create(
+                        voteServiceImpl.responsePercentage(team1Votes, team2Votes)
+                )
+                .expectNext(new VoteResponse(80.00, 20.00))
+                .expectComplete()
+                .verify();
+
+    }
+
+
+    @Test
+    void testResponsePercentageXPercentTeam1YPercentTeam2() {
+        var team1Votes = 500;
+        var team2Votes = 30;
+        StepVerifier.create(
+                        voteServiceImpl.responsePercentage(team1Votes, team2Votes)
+                )
+                .expectNext(new VoteResponse(94.34, 5.66))
+                .expectComplete()
+                .verify();
 
     }
 }
