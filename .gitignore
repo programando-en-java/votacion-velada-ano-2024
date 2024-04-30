@@ -31,3 +31,9 @@ build/
 
 ### VS Code ###
 .vscode/
+
+
+# Arquivos gerados pelo IntelliJ IDEA
+.idea/
+*.iml
+*.iws
