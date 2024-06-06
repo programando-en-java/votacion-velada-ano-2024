@@ -44,6 +44,10 @@
 			<optional>true</optional>
 		</dependency>
 		<dependency>
+    		<groupId>org.springframework.boot</groupId>
+    		<artifactId>spring-boot-devtools</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<version>3.2.4</version>
@@ -79,6 +83,8 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
+                	<excludeDevtools>false</excludeDevtools>
+					<addResources>true</addResources>
 					<excludes>
 						<exclude>
 							<groupId>org.projectlombok</groupId>
