@@ -36,7 +36,7 @@ public class VoteServiceImplTest {
   @Test
   public void getVotes1() throws NotFoundException {
     final String equipoId = "equipoId";
-    final VoteResponse esperado = new VoteResponse(0.0D, 1.0D);
+    final VoteResponse esperado = new VoteResponse("match-1", 0.0D, 1.0D);
     final VoteDocument documentoEquipo = new VoteDocument();
     documentoEquipo.setCountTeam1(0L);
     documentoEquipo.setCountTeam2(1L);
@@ -62,7 +62,7 @@ public class VoteServiceImplTest {
   @Test
   public void getVotes2() throws NotFoundException {
     final String equipoId = "equipoId";
-    final VoteResponse esperado = new VoteResponse(0.5D, 0.5D);
+    final VoteResponse esperado = new VoteResponse("match-1", 0.5D, 0.5D);
     final VoteDocument documentoEquipo = new VoteDocument();
     documentoEquipo.setCountTeam1(1L);
     documentoEquipo.setCountTeam2(1L);

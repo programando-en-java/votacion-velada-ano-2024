@@ -40,10 +40,13 @@ function disconnect() {
   console.log("Disconnected");
 }
 
-function sendName(teamId) {
+function sendVote(teamId) {
   stompClient.publish({
     destination: "/app/votes",
-    body: JSON.stringify({ teamId: teamId }),
+    body: JSON.stringify({
+      matchId: "666201b8a6a0911548cd1a97",
+      teamId: teamId,
+    }),
   });
 }
 
@@ -60,9 +63,9 @@ function modificarBarrasDeProgreso(message) {
 $(function () {
   $("form").on("submit", (e) => e.preventDefault());
   $("#vote-team1").click(() =>
-    sendName("f65d4f2a-958b-4d94-9d71-61529c6fa1d6")
+    sendVote("f65d4f2a-958b-4d94-9d71-61529c6fa1d6")
   );
   $("#vote-team2").click(() =>
-    sendName("bc544e5d-3139-47c0-92b7-b41e1825b510")
+    sendVote("bc544e5d-3139-47c0-92b7-b41e1825b510")
   );
 });

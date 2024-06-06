@@ -27,10 +27,40 @@ public class VoteServiceImpl implements VoteService {
   @Override
   public VoteResponse saveVote(VoteRequest voteRequest)
     throws NotFoundException {
-    final VoteDocument voteDocument = findById(voteRequest.teamId());
-    final var countTeam1 = voteDocument.getCountTeam1() + 1;
-    voteDocument.setCountTeam1(countTeam1);
-    final var saved = voteRepository.save(voteDocument);
+    VoteDocument saved = null;
+    try {
+      final VoteDocument voteDocument = findById(voteRequest.matchId());
+      if (voteDocument.getCountTeam1() == null) {
+        voteDocument.setCountTeam1(0L);
+      }
+
+      if (voteDocument.getCountTeam2() == null) {
+        voteDocument.setCountTeam2(0L);
+      }
+
+      if ("f65d4f2a-958b-4d94-9d71-61529c6fa1d6".equals(voteRequest.teamId())) {
+        voteDocument.setCountTeam1(voteDocument.getCountTeam1() + 1);
+      }
+
+      if ("bc544e5d-3139-47c0-92b7-b41e1825b510".equals(voteRequest.teamId())) {
+        voteDocument.setCountTeam2(voteDocument.getCountTeam2() + 1);
+      }
+      saved = voteRepository.save(voteDocument);
+    } catch (Exception ex) {
+      final var document = new VoteDocument();
+      if ("f65d4f2a-958b-4d94-9d71-61529c6fa1d6".equals(voteRequest.teamId())) {
+        document.setCountTeam1(1L);
+      } else {
+        document.setCountTeam1(0L);
+      }
+
+      if ("bc544e5d-3139-47c0-92b7-b41e1825b510".equals(voteRequest.teamId())) {
+        document.setCountTeam2(1L);
+      } else {
+        document.setCountTeam2(0L);
+      }
+      saved = voteRepository.save(document);
+    }
     return mapVoteDocumentToVoteResponse(saved);
   }
 
@@ -58,10 +88,11 @@ public class VoteServiceImpl implements VoteService {
       totalVotes
     );
 
-    final double porcentajeDecimalTeam1 = porcentajeTeam1 / 100;
-    final double porcentajeDecimalTeam2 = porcentajeTeam2 / 100;
-
-    return new VoteResponse(porcentajeDecimalTeam1, porcentajeDecimalTeam2);
+    return new VoteResponse(
+      voteDocument.getId(),
+      porcentajeTeam1,
+      porcentajeTeam2
+    );
   }
 
   private long calcularPorcentaje(final long x, final long total) {
