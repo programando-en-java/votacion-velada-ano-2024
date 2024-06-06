@@ -3,7 +3,6 @@ package com.veladaano.programandoenjava.votacionveladaano2024.controllers;
 import com.veladaano.programandoenjava.votacionveladaano2024.dto.VoteRequest;
 import com.veladaano.programandoenjava.votacionveladaano2024.dto.VoteResponse;
 import com.veladaano.programandoenjava.votacionveladaano2024.services.VoteService;
-import java.util.UUID;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
