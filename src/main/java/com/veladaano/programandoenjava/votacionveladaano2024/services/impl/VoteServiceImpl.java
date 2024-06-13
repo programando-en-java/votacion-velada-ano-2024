@@ -25,28 +25,12 @@ public class VoteServiceImpl implements VoteService {
   }
 
   @Override
-  public VoteResponse saveVote(VoteRequest voteRequest)
-    throws NotFoundException {
+  public VoteResponse saveVote(VoteRequest voteRequest) throws NotFoundException {
     VoteDocument saved = null;
     try {
       final VoteDocument voteDocument = findById(voteRequest.matchId());
-      if (voteDocument.getCountTeam1() == null) {
-        voteDocument.setCountTeam1(0L);
-      }
-
-      if (voteDocument.getCountTeam2() == null) {
-        voteDocument.setCountTeam2(0L);
-      }
-
-      if ("f65d4f2a-958b-4d94-9d71-61529c6fa1d6".equals(voteRequest.teamId())) {
-        voteDocument.setCountTeam1(voteDocument.getCountTeam1() + 1);
-      }
-
-      if ("bc544e5d-3139-47c0-92b7-b41e1825b510".equals(voteRequest.teamId())) {
-        voteDocument.setCountTeam2(voteDocument.getCountTeam2() + 1);
-      }
-      saved = voteRepository.save(voteDocument);
-    } catch (Exception ex) {
+      saved = saveVote(voteDocument, voteRequest.teamId());
+    } catch (NotFoundException ex) {
       final var document = new VoteDocument();
       if ("f65d4f2a-958b-4d94-9d71-61529c6fa1d6".equals(voteRequest.teamId())) {
         document.setCountTeam1(1L);
@@ -62,6 +46,25 @@ public class VoteServiceImpl implements VoteService {
       saved = voteRepository.save(document);
     }
     return mapVoteDocumentToVoteResponse(saved);
+  }
+
+  private VoteDocument saveVote(VoteDocument voteDocument, String teamId) {
+    if (voteDocument.getCountTeam1() == null) {
+      voteDocument.setCountTeam1(0L);
+    }
+
+    if (voteDocument.getCountTeam2() == null) {
+      voteDocument.setCountTeam2(0L);
+    }
+
+    if ("f65d4f2a-958b-4d94-9d71-61529c6fa1d6".equals(teamId)) {
+      voteDocument.setCountTeam1(voteDocument.getCountTeam1() + 1);
+    }
+
+    if ("bc544e5d-3139-47c0-92b7-b41e1825b510".equals(teamId)) {
+      voteDocument.setCountTeam2(voteDocument.getCountTeam2() + 1);
+    }
+    return voteRepository.save(voteDocument);
   }
 
   private VoteDocument findById(String teamId) throws NotFoundException {
@@ -95,7 +98,7 @@ public class VoteServiceImpl implements VoteService {
     );
   }
 
-  private long calcularPorcentaje(final long x, final long total) {
-    return x * 100 / total;
+  private double calcularPorcentaje(final long x, final long total) {
+    return (double) (x * 100) / total;
   }
 }
